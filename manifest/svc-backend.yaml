@@ -10,6 +10,6 @@ spec:
   - port: 80
     targetPort: 5000
     protocol: TCP
-  selector:
-   label: backend
-   app: watermark
+  selector: 
+      tier: backend
+      

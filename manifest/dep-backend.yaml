@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
       - name: backend-app
-        image: docker.io/isaaccollins/isaac-watermark:backend1
+        image: docker.io/isaaccollins/isaac-watermark:backend3
         ports:
         - containerPort: 5000

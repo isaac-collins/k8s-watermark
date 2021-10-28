@@ -4,11 +4,6 @@ from flask import request
 
 app = Flask(__name__)
 
-
-
-
-
-
 def watermark_image(
     b64_image,
     text
@@ -18,8 +13,6 @@ def watermark_image(
     image_array = numpy.frombuffer(img_bytes,dtype=numpy.uint8)
     img = cv2.imdecode(image_array,flags=cv2.IMREAD_COLOR)
 
-
-    #img = cv2.imread(image)
     font = cv2.FONT_HERSHEY_COMPLEX
 
     org = (00,100)
@@ -36,11 +29,9 @@ def watermark_image(
 
 @app.route('/x', methods=['POST','GET'])
 def index():
-    #print(request.form['image'])
-    #print(request.data)
     print(request.form['text'],request.form['image'])
     image = watermark_image(request.form['image'],request.form['text'])
-    return image#render_template('temp.html', img=image)
+    return image
 
 @app.route('/test')
 def test_route():
