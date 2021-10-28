@@ -3,7 +3,7 @@ import requests
 
 app = Flask(__name__)
 
-endpoint = 'http://backend:5000/x'
+endpoint = 'http://backend-svc/x'
 
 @app.route('/')
 def upload():

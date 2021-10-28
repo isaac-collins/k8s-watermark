@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-app
+  labels:
+    app: watermark
+    tier: backend
+spec:
+  selector:
+    matchLabels:
+      app: watermark
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: watermark
+        tier: backend
+    spec:
+      containers:
+      - name: backend-app
+        image: docker.io/isaaccollins/isaac-watermark:backend1
+        ports:
+        - containerPort: 5000

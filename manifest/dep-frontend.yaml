@@ -1,0 +1,23 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-app
+  labels:
+    app: watermark
+spec:
+  selector:
+    matchLabels:
+      app: watermark
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: watermark
+        tier: frontend
+    spec:
+      containers:
+      - name: frontend-app
+        image: docker.io/isaaccollins/isaac-watermark:frontend2
+        ports:
+        - containerPort: 5000
