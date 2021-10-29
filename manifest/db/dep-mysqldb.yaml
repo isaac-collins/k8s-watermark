@@ -16,10 +16,17 @@ spec:
       containers:
       - name: mysqldb
         image: mysql:5.6
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysqldb-secret
+              key: password
+        volumes:
+        - name: mysqldb-pv
+          persistentVolumeClaim:
+            claimName: mysqldb-pvc
         resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
         ports:
         - containerPort: 3306
-        
+
