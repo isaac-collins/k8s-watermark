@@ -22,11 +22,12 @@ spec:
             secretKeyRef:
               name: mysqldb-secret
               key: password
-        volumes:
-        - name: mysqldb-pv
-          persistentVolumeClaim:
-            claimName: mysqldb-pvc
-        resources:
         ports:
         - containerPort: 3306
-
+        volumeMounts:
+          - name: mysqldb-pv
+            mountPath: /var/lib/mysql
+      volumes:
+      - name: mysqldb-pv
+        persistentVolumeClaim:
+          claimName: mysqldb-pvc

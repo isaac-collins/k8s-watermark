@@ -19,6 +19,10 @@ spec:
             secretKeyRef:
               name: mysqldb-secret
               key: password
+        - name: DB_USER
+          value: ROOT
+        - name: DB_HOST
+          value: mysqldb-svc
         image: docker.io/isaaccollins/isaac-watermark:db-api1
         ports:
         - containerPort: 5000
