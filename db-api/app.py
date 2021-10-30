@@ -4,6 +4,7 @@ from flask import Flask
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask_restful import Resource, Api
 
 DB_HOST = os.getenv('DB_HOST')
 DB_USER = os.getenv('DB_USER')
