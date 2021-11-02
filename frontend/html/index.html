@@ -1,0 +1,80 @@
+<html>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .form {
+            text-align: center;
+            vertical-align: middle;
+        }
+        body {background-color:rgb(182, 182, 182);}
+    </style>
+    <script>
+        let base64String = "";
+           
+        function imageUploaded() {
+            var file = document.querySelector(
+                'input[type=file]')['files'][0];
+             
+            var reader = new FileReader();
+                 
+            reader.onload = function () {
+            base64String = reader.result.replace("data:", "")
+                .replace(/^.+,/, "");
+                imageBase64Stringsep = base64String;
+            }
+            reader.readAsDataURL(file);
+        }
+
+        window.onload = function() {
+            document.getElementById('form').onsubmit = function() {
+                const formsubmitted = async () => {
+                    const resp = await fetch("/backend", {
+                        method: "POST",
+                        headers: {"Content-Type": "application/json"},
+                        body: {
+                            "image": base64String, 
+                            "text": document.getElementById('text').value
+                        }
+                    });
+                    const jsonresp = resp.json();
+
+                    var imageblock = document.getElementById("imageblock")
+                    var transformedimage = document.createElement("img");
+                    transformedimage.src = "data:image/png;base64," + jsonrep.transformed_image
+                    imageblock.insertBefore(transformedimage)
+                }
+            }
+        }
+    </script>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container col-4">
+        <form id='form'>
+            <div class="row mb-3">
+                <label for="text" class="col-sm-2 col-form-label">Watermark Text:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" name="text" id='text'>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label for="image" class="col-sm-2 col-form-label">Upload Image:</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="file" id="image" onchange="imageUploaded()">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <!--<input type="submit" value="Submit" style="color: azure;">-->
+                <div class="col-sm-2 col-form-label">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        
+        </form>
+
+    </div>
+    <div id="imageblock">
+
+    </div>
+</html>

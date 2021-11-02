@@ -1,6 +1,6 @@
 import cv2, base64, numpy
 from flask import Flask, render_template
-from flask import request
+from flask import request, jsonify
 
 app = Flask(__name__)
 
@@ -27,17 +27,16 @@ def watermark_image(
     print(encoded_image)
     return encoded_image
 
-@app.route('/x', methods=['POST','GET'])
+@app.route('/backend', methods=['POST','GET'])
 def index():
-    print(request.form['text'],request.form['image'])
-    image = watermark_image(request.form['image'],request.form['text'])
-    return image
+    print(request.json)
+    transformed_image = watermark_image(request.json['image'],request.json['text'])
+    return jsonify({
+        'transformed_image':transformed_image
+        })
 
 @app.route('/test')
 def test_route():
     return "OK"
 
-@app.route('/upload')
-def upload():
-    return render_template('upload.html')
 
