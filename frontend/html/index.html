@@ -45,6 +45,22 @@
                 }
             }
         }
+        
+        
+     function onUpload() {
+        var inputText = document.getElementById('textbox').value
+        fetch('/backend', {
+            method: "POST",
+        })
+        .then(function (response){
+            return response.text();
+        })
+        .then(function (text){
+            console.log(text);
+            var imageblock = document.getElementById("block");
+            const resp = document.createTextNode(text);
+            imageblock.appendChild(resp);
+        })
     </script>
     <br>
     <br>
