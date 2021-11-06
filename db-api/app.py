@@ -58,6 +58,11 @@ class ImageResource(Resource):
         image = Image.query.get_or_404(image_id)
         return image_schema.dump(image)
 
+class Debug(Resource):
+    def get(self):
+        return DB_PASSWORD
+
 api.add_resource(ImageResources, "/images")
 api.add_resource(ImageResource,'/images/<int:image_id>')
+api.add_resource(Debug, '/debug')
 
