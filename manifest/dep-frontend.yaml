@@ -18,6 +18,6 @@ spec:
     spec:
       containers:
       - name: frontend-app
-        image: docker.io/isaaccollins/isaac-watermark:frontend3
+        image: docker.io/isaaccollins/isaac-watermark:frontend$BUILD_NUMBER
         ports:
         - containerPort: 5000
