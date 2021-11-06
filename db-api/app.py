@@ -58,3 +58,4 @@ class ImageResource(Resource):
 
 api.add_resource(ImageResources, "/images")
 api.add_resource(ImageResource,'/images/<int:image_id>')
+print("PWD::" + DB_PASSWORD)
