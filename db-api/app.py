@@ -17,15 +17,15 @@ api = Api(app)
 db = SQLAlchemy(app)
 marsh = Marshmallow(app)
 
-class Image(db.Model):
+class Images(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.String(30))
-    data = db.Column(db.BLOB)
+    data = db.Column(db.varchar(255)) #conver to BLOB
 
 class ImageSchema(marsh.Schema):
     class Meta:
         fields = ("id","timestamp","data")
-        model = Image
+        model = Images
 
 image_schema = ImageSchema()
 images_schema = ImageSchema(many=True)
@@ -39,13 +39,13 @@ def dump_with_b65(schema_obj,obj):
 
 class ImageResources(Resource):
     def get(self):
-        images = Image.query.all()
+        images = Images_schema.query.all()
         print("PWD::" + DB_PASSWORD)
         return images_schema.dump(images)
 
 
     def post(self):
-        image = Image(
+        image = Images(
             timestamp = datetime.datetime.now(),
             data = base64.b64decode(request.json["data"])
         )
@@ -55,7 +55,7 @@ class ImageResources(Resource):
 
 class ImageResource(Resource):
     def get(self, image_id):
-        image = Image.query.get_or_404(image_id)
+        image = Images.query.get_or_404(image_id)
         return image_schema.dump(image)
 
 class Debug(Resource):
