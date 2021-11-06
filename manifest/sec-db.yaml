@@ -3,6 +3,6 @@ kind: Secret
 metadata:
   name: mysqldb-secret
 type: Opaque
-data:
+stringData:
   password: ABCD12345!!
   
