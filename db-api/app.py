@@ -20,7 +20,7 @@ marsh = Marshmallow(app)
 class Images(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.String(30))
-    data = db.Column(db.varchar(255)) #conver to BLOB
+    data = db.Column(db.String(255)) #conver to BLOB
 
 class ImageSchema(marsh.Schema):
     class Meta:
