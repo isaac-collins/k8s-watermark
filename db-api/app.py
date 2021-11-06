@@ -9,7 +9,7 @@ DB_HOST = os.getenv('DB_HOST')
 DB_USER = os.getenv('DB_USER')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 
-print("PWD::" + DB_PASSWORD)
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://{0}:{1}@{2}/images".format(DB_USER,DB_PASSWORD,DB_HOST)
 api = Api(app)
@@ -40,7 +40,9 @@ def dump_with_b65(schema_obj,obj):
 class ImageResources(Resource):
     def get(self):
         images = Image.query.all()
+        print("PWD::" + DB_PASSWORD)
         return images_schema.dump(images)
+
 
     def post(self):
         image = Image(
