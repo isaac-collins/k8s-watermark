@@ -27,47 +27,62 @@
 
         window.onload = function() {
             document.getElementById('form').onsubmit = function() {
-                const formsubmitted = async () => {
-                    const resp = await fetch("/backend", {
-                        method: "POST",
-                        headers: {"Content-Type": "application/json"},
-                        body: {
+                var inputText = document.getElementById('text').value
+                fetch('http://137.184.244.218/backend', {
+                    mode:"no-cors",
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    body: {
                             "image": base64String, 
                             "text": document.getElementById('text').value
                         }
-                    });
-                    const jsonresp = resp.json();
 
-                    var imageblock = document.getElementById("imageblock")
-                    var transformedimage = document.createElement("img");
-                    transformedimage.src = "data:image/png;base64," + jsonrep.transformed_image
-                    imageblock.insertBefore(transformedimage)
-                }
+                })     
+                .then(function (response){
+                    return response.text();
+                })
+                .then(function (text){
+                    console.log(text);
+                    var imageblock = document.getElementById("imageblock");
+                    const resp = document.createTextNode(text);
+                    imageblock.appendChild(resp);
+                })
+                
             }
         }
         
         
      function onUpload() {
         var inputText = document.getElementById('textbox').value
-        fetch('/backend', {
+        fetch('http://137.184.244.218/backend', {
             method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: {
+                    "image": base64String, 
+                    "text": document.getElementById('text').value
+                }
         })
         .then(function (response){
             return response.text();
         })
         .then(function (text){
             console.log(text);
-            var imageblock = document.getElementById("block");
+            var imageblock = document.getElementById("imageblock");
             const resp = document.createTextNode(text);
             imageblock.appendChild(resp);
         })
+        var imageblock = document.getElementById("imageblock")
+                    var transformedimage = document.createElement("img");
+                    transformedimage.src = "data:image/png;base64," + jsonrep.transformed_image
+                    imageblock.insertBefore(transformedimage)
+     }
     </script>
     <br>
     <br>
     <br>
     <br>
     <div class="container col-4">
-        <form id='form'>
+        <form id='form' action="javascript:void(0);">
             <div class="row mb-3">
                 <label for="text" class="col-sm-2 col-form-label">Watermark Text:</label>
                 <div class="col-sm-10">
