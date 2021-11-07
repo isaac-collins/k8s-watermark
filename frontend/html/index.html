@@ -41,10 +41,10 @@
                     return response.text();
                 })
                 .then(function (text){
-                    console.log(text);
-                    var imageblock = document.getElementById("imageblock");
-                    const resp = document.createTextNode(text);
-                    imageblock.appendChild(resp);
+                    var imageblock = document.getElementById("imageblock")
+                    var transformedimage = document.createElement("img");
+                    transformedimage.src = "data:image/png;base64," + text;
+                    imageblock.insertBefore(transformedimage)
                 })
                 
             }
