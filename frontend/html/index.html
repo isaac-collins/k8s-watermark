@@ -41,10 +41,11 @@
                     return response.text();
                 })
                 .then(function (text){
+                    const imgobj = JSON.parse(text);
                     var imageblock = document.getElementById("imageblock")
                     var transformedimage = document.createElement("img");
-                    transformedimage.src = "data:image/png;base64," + text;
-                    imageblock.insertBefore(transformedimage)
+                    transformedimage.src = "data:image/png;base64," + imgobj.transformed_image;
+                    imageblock.appendChild(transformed_image);
                 })
                 
             }
