@@ -6,6 +6,11 @@
             text-align: center;
             vertical-align: middle;
         }
+
+        img {
+            display: block;
+            margin: auto;
+        }
         body {background-color:rgb(182, 182, 182);}
     </style>
     <script>
@@ -43,39 +48,14 @@
                 .then(function (text){
                     const imgobj = JSON.parse(text);
                     var imageblock = document.getElementById("imageblock")
+                    imageblock.innerHTML = '';
                     var transformedimage = document.createElement("img");
                     transformedimage.src = "data:image/png;base64," + imgobj.transformed_image;
-                    imageblock.appendChild(transformed_image);
+                    imageblock.appendChild(transformedimage);
                 })
                 
             }
         }
-        
-        
-     function onUpload() {
-        var inputText = document.getElementById('textbox').value
-        fetch('/backend', {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: {
-                    "image": base64String, 
-                    "text": document.getElementById('text').value
-                }
-        })
-        .then(function (response){
-            return response.text();
-        })
-        .then(function (text){
-            console.log(text);
-            var imageblock = document.getElementById("imageblock");
-            const resp = document.createTextNode(text);
-            imageblock.appendChild(resp);
-        })
-        var imageblock = document.getElementById("imageblock")
-                    var transformedimage = document.createElement("img");
-                    transformedimage.src = "data:image/png;base64," + jsonrep.transformed_image
-                    imageblock.insertBefore(transformedimage)
-     }
     </script>
     <br>
     <br>
@@ -96,7 +76,6 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <!--<input type="submit" value="Submit" style="color: azure;">-->
                 <div class="col-sm-2 col-form-label">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
@@ -105,7 +84,7 @@
         </form>
 
     </div>
-    <div id="imageblock">
-
-    </div>
+    <br>
+    <br>
+    <div id="imageblock" style="margin: 0 auto;"></div>
 </html>
