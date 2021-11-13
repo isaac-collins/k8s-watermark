@@ -34,12 +34,12 @@ def index():
     print(request.json)
     transformed_image = watermark_image(request.json['image'],request.json['text'])
     resp = {
-        'transformed_image':transformed_image
+        'transformed_image': transformed_image
     }
 
     req_data = requests.post(
         db_api + "images",
-        data=resp,
+        data=jsonify(resp),
     )
     return jsonify(resp)
 @app.route('/test')
