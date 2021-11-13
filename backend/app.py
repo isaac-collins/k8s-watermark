@@ -39,7 +39,7 @@ def index():
 
     req_data = requests.post(
         db_api + "images",
-        data=jsonify(resp),
+        data={'transformed_image': transformed_image},
     )
     return jsonify(resp)
 @app.route('/test')
