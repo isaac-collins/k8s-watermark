@@ -8,7 +8,7 @@ from flask_restful import Resource, Api
 DB_HOST = os.getenv('DB_HOST')
 DB_USER = os.getenv('DB_USER')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
-test = "t"
+test = "OK"
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://{0}:{1}@{2}/images".format(DB_USER,DB_PASSWORD,DB_HOST)
@@ -20,7 +20,7 @@ marsh = Marshmallow(app)
 class Images(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.String(30))
-    data = db.Column(db.String(255)) #conver to BLOB
+    data = db.Column(db.Binary) #convert to BLOB
 
 class ImageSchema(marsh.Schema):
     class Meta:
@@ -40,14 +40,13 @@ def dump_with_b65(schema_obj,obj):
 class ImageResources(Resource):
     def get(self):
         images = Images_schema.query.all()
-        print("PWD::" + DB_PASSWORD)
         return images_schema.dump(images)
 
 
     def post(self):
         image = Images(
             timestamp = datetime.datetime.now(),
-            data = base64.b64decode(request.json["data"])
+            data = base64.b64decode(request.json["transformed_image"])
         )
         db.session.add(image)
         db.session.commit()

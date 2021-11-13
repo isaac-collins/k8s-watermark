@@ -1,6 +1,8 @@
-import cv2, base64, numpy
+import cv2, base64, numpy, requests
 from flask import Flask, render_template
 from flask import request, jsonify
+
+db_api = "http://db-api-svc/"
 
 app = Flask(__name__)
 
@@ -31,10 +33,15 @@ def watermark_image(
 def index():
     print(request.json)
     transformed_image = watermark_image(request.json['image'],request.json['text'])
-    return jsonify({
+    resp = {
         'transformed_image':transformed_image
-        })
+    }
 
+    req_data = requests.post(
+        db_api + "images",
+        data=resp,
+    )
+    return jsonify(resp)
 @app.route('/test')
 def test_route():
     return "OK"
