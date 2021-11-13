@@ -50,7 +50,7 @@ class ImageResources(Resource):
         )
         db.session.add(image)
         db.session.commit()
-        return image_schema.dump(image)
+        return data
 
 class ImageResource(Resource):
     def get(self, image_id):
@@ -59,7 +59,7 @@ class ImageResource(Resource):
 
 class Debug(Resource):
     def get(self):
-        return test
+        return request.json["transformed_image"]
 
 api.add_resource(ImageResources, "/images")
 api.add_resource(ImageResource,'/images/<int:image_id>')
