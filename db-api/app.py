@@ -40,7 +40,8 @@ def dump_with_b65(schema_obj,obj):
 class ImageResources(Resource):
     def get(self):
         images = Images_schema.query.all()
-        return images_schema.dump(images)
+        #return images_schema.dump(images)
+        return dump_with_b65(images_schema,images)
 
 
     def post(self):
@@ -55,7 +56,8 @@ class ImageResources(Resource):
 class ImageResource(Resource):
     def get(self, image_id):
         image = Images.query.get_or_404(image_id)
-        return image_schema.dump(image)
+        #return image_schema.dump(image)
+        return dump_with_b65(image_schema,image)
 
 class Debug(Resource):
     def get(self):
