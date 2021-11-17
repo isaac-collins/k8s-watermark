@@ -28,7 +28,8 @@ class ImageSchema(marsh.Schema):
     class Meta:
         fields = ("id","timestamp","data")
         model = Images
-    data = marsh.fields.Method("decode_image",deserialize="encode_image")
+
+    data = fields.Method("decode_image",deserialize="encode_image")
 
     def decode_image(self, value):
         return base64.b64decode(value)
