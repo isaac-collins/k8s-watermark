@@ -36,7 +36,7 @@ def index():
     resp = {
         'transformed_image': transformed_image
     }
-    print(resp.text)
+    
     req_data = requests.post(
         db_api + "images",
         json = {'transformed_image': transformed_image},
