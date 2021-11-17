@@ -1,7 +1,7 @@
 import os, datetime, base64
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow
+from flask_marshmallow import Marshmallow, fields
 from flask_restful import Resource, Api
 
 
@@ -17,6 +17,8 @@ api = Api(app)
 db = SQLAlchemy(app)
 marsh = Marshmallow(app)
 
+
+
 class Images(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.String(30))
@@ -26,23 +28,23 @@ class ImageSchema(marsh.Schema):
     class Meta:
         fields = ("id","timestamp","data")
         model = Images
+    data = marsh.fields.Method("decode_image",deserialize="encode_image")
+
+    def decode_image(self, value):
+        return base64.b64decode(value)
+
+    def encode_image(self, value):
+        return base64.b64encode(value)
+
+
 
 image_schema = ImageSchema()
 images_schema = ImageSchema(many=True)
 
-def dump_with_b65(schema_obj,obj):
-    data = schema_obj.dump(obj)
-    data.update({
-        "data": base64.b64encode(data["data"])
-    })
-    return data
-
 class ImageResources(Resource):
     def get(self):
         images = Images_schema.query.all()
-        #return images_schema.dump(images)
-        return dump_with_b65(images_schema,images)
-
+        return images_schema.dump(images)
 
     def post(self):
         image = Images(
@@ -56,12 +58,12 @@ class ImageResources(Resource):
 class ImageResource(Resource):
     def get(self, image_id):
         image = Images.query.get_or_404(image_id)
-        #return image_schema.dump(image)
-        return dump_with_b65(image_schema,image)
+        return image_schema.dump(image)
 
 class Debug(Resource):
     def get(self):
         return request.json["transformed_image"]
+
 
 api.add_resource(ImageResources, "/images")
 api.add_resource(ImageResource,'/images/<int:image_id>')
