@@ -29,7 +29,8 @@ class ImageSchema(Schema):
     data = fields.Method("decode_image",deserialize="encode_image")
 
     def decode_image(self, obj):
-        return base64.b64encode(obj.data)
+        b64_image = base64.b64encode(obj.data)
+        return b64_image.decode("utf-8")
 
     def encode_image(self, obj):
         return base64.b64decode(obj.data)
