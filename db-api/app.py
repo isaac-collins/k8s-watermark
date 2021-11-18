@@ -1,22 +1,20 @@
 import os, datetime, base64
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
-from flask_marshmallow import Marshmallow, fields
+from marshmallow import *
 from flask_restful import Resource, Api
 
 
 DB_HOST = os.getenv('DB_HOST')
 DB_USER = os.getenv('DB_USER')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
-test = "OK"
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://{0}:{1}@{2}/images".format(DB_USER,DB_PASSWORD,DB_HOST)
+
 api = Api(app)
-
 db = SQLAlchemy(app)
-marsh = Marshmallow(app)
-
 
 
 class Images(db.Model):
@@ -24,11 +22,10 @@ class Images(db.Model):
     timestamp = db.Column(db.String(30))
     data = db.Column(db.BINARY) #convert to BLOB
 
-class ImageSchema(marsh.Schema):
-    class Meta:
-        fields = ("id","timestamp","data")
-        model = Images
+class ImageSchema(Schema):
 
+    id = fields.Integer()
+    timestamp = String()
     data = fields.Method("decode_image",deserialize="encode_image")
 
     def decode_image(self, value):
@@ -61,12 +58,7 @@ class ImageResource(Resource):
         image = Images.query.get_or_404(image_id)
         return image_schema.dump(image)
 
-class Debug(Resource):
-    def get(self):
-        return request.json["transformed_image"]
-
-
 api.add_resource(ImageResources, "/images")
 api.add_resource(ImageResource,'/images/<int:image_id>')
-api.add_resource(Debug, '/debug')
+
 
