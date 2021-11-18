@@ -25,7 +25,7 @@ class Images(db.Model):
 class ImageSchema(Schema):
 
     id = fields.Integer()
-    timestamp = String()
+    timestamp = fields.String()
     data = fields.Method("decode_image",deserialize="encode_image")
 
     def decode_image(self, value):
