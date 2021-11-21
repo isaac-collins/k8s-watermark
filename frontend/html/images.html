@@ -1,0 +1,48 @@
+<html>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .form {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        img {
+            display: block;
+            margin: auto;
+        }
+        body {background-color:rgb(182, 182, 182);}
+    </style>
+    <script>
+        window.onload = function() {
+            fetch('/getimages', {
+                method: "GET",
+                headers: {"Content-Type": "application/json"}
+            })     
+            .then(function (response){
+                return response.text();
+            })
+            .then(function (text){
+                const jsonResponse = JSON.parse(text);
+                var imgContainer = document.getElementById("imgContainer")
+                for (var imgObj in jsonResponse) {
+                    var transformedimage = document.createElement("img");
+                    transformedimage.src = "data:image/png;base64," + imgObj.data;
+                    imgContainer.appendChild(transformedimage);
+                    document.createElement("br");
+                }
+            })
+        }
+    </script>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div id="imgContainer" class="container col-4">
+
+
+    </div>
+    <br>
+    <br>
+    <div id="imageblock" style="margin: 0 auto;"></div>
+</html>
