@@ -46,7 +46,7 @@ images_schema = ImageSchema(many=True)
 #
 class ImageResources(Resource):
     def get(self):
-        images = Images_schema.query.all()
+        images = images_schema.query.all()
         return images_schema.dump(images)
 
     def post(self):
@@ -56,7 +56,7 @@ class ImageResources(Resource):
         )
         db.session.add(image)
         db.session.commit()
-        return data
+        return image_schema.dump(image)
 
 class ImageResource(Resource):
     def get(self, image_id):
