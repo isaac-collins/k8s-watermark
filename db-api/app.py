@@ -46,17 +46,17 @@ images_schema = ImageSchema(many=True)
 #
 class ImageResources(Resource):
     def get(self):
-        images = images_schema.query.all()
+        images = Images.query.all()
         return images_schema.dump(images)
 
     def post(self):
-        image = Images(
+        image_obj = Images(
             timestamp = datetime.datetime.now(),
             data = request.json["transformed_image"]
         )
-        db.session.add(image)
+        db.session.add(image_obj)
         db.session.commit()
-        return image_schema.dump(image)
+        return image_schema.dump(image_obj)
 
 class ImageResource(Resource):
     def get(self, image_id):
