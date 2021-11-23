@@ -51,7 +51,7 @@ class ImageResources(Resource):
 
     def post(self):
         image_obj = Images(
-            timestamp = datetime.datetime.now(),
+            timestamp = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"),
             data = request.json["transformed_image"]
         )
         db.session.add(image_obj)
