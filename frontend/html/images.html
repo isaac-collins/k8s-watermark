@@ -26,6 +26,7 @@
                 const jsonResponse = JSON.parse(text);
                 var imgContainer = document.getElementById("imgContainer")
                 for (var imgObj in jsonResponse) {
+                    console.log(imgObj)
                     var transformedimage = document.createElement("img");
                     transformedimage.src = "data:image/png;base64," + imgObj[data];
                     imgContainer.appendChild(transformedimage);
