@@ -36,7 +36,7 @@ class ImageSchema(Schema):
 
     #convert b64 string from client to bytes 
     def decode_image(self, obj):
-        return base64.b64decode(obj.data)
+        return base64.b64decode(obj.data).decode("utf-8")
 
 image_schema = ImageSchema()
 images_schema = ImageSchema(many=True)
