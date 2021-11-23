@@ -27,7 +27,7 @@
                 var imgContainer = document.getElementById("imgContainer")
                 for (var imgObj in jsonResponse) {
                     var transformedimage = document.createElement("img");
-                    transformedimage.src = "data:image/png;base64," + imgObj.data;
+                    transformedimage.src = "data:image/png;base64," + imgObj[data];
                     imgContainer.appendChild(transformedimage);
                     document.createElement("br");
                 }
