@@ -25,11 +25,11 @@
             .then(function (text){
                 const jsonResponse = JSON.parse(text);
                 var imgContainer = document.getElementById("imgContainer")
-                console.log(jsonResponse)
-                for (var imgObj in jsonResponse) {
-                    console.log(imgObj)
+                
+                for (var key in jsonResponse) {
+                    
                     var transformedimage = document.createElement("img");
-                    transformedimage.src = "data:image/png;base64," + imgObj[data];
+                    transformedimage.src = "data:image/png;base64," + jsonResponse[key].data;
                     imgContainer.appendChild(transformedimage);
                     document.createElement("br");
                 }
