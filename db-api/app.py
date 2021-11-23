@@ -36,7 +36,7 @@ class ImageSchema(Schema):
 
     #convert b64 string from client to bytes 
     def decode_image(self, obj):
-        return base64.b64decode(obj.data).decode("utf-8")
+        return base64.b64decode(obj.data)
 
 image_schema = ImageSchema()
 images_schema = ImageSchema(many=True)
@@ -52,7 +52,7 @@ class ImageResources(Resource):
     def post(self):
         image_obj = Images(
             timestamp = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"),
-            data = request.json["transformed_image"]
+            data = base64.b64decode(request.json["transformed_image"])
         )
         db.session.add(image_obj)
         db.session.commit()
