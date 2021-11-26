@@ -18,6 +18,11 @@ db = SQLAlchemy(app)
 #Image object model
 #
 class Images(db.Model):
+
+    def __init__(self, b64data):
+        self.data = base64.b64decode(b64data)
+        self.timestamp = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.String(30))
     data = db.Column(db.BINARY) 
@@ -51,8 +56,7 @@ class ImageResources(Resource):
 
     def post(self):
         image_obj = Images(
-            timestamp = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"),
-            data = base64.b64decode(request.json["transformed_image"])
+            b64data = request.json["transformed_image"]
         )
         db.session.add(image_obj)
         db.session.commit()
