@@ -9,6 +9,6 @@ spec:
   type: LoadBalancer
   ports:
   - port: 80
-    targetPort: 5000
+    targetPort: 80
   selector:
     tier: frontend

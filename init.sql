@@ -4,7 +4,7 @@ CREATE TABLE images
 (
     id INT NOT NULL AUTO_INCREMENT,
     timestamp VARCHAR(50),
-    data VARCHAR(255),
+    data BLOB,
     PRIMARY KEY ( id )
 
 );

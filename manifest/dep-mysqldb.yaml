@@ -27,7 +27,39 @@ spec:
         volumeMounts:
           - name: mysqldb-pv
             mountPath: /var/lib/mysql
+          - name: mysql-initdb
+            mountPath: /docker-entrypoint-initdb.d
       volumes:
       - name: mysqldb-pv
         persistentVolumeClaim:
           claimName: mysqldb-pvc
+      - name: mysql-initdb
+        configMap:
+          name: mysql-initdb-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-initdb-config
+data:
+  initdb.sql: |
+    CREATE DATABASE images;
+    USE images;
+    CREATE TABLE images 
+    (
+        id INT NOT NULL AUTO_INCREMENT,
+        timestamp VARCHAR(50),
+        data BLOB,
+        PRIMARY KEY ( id )
+    
+    );
+    INSERT INTO images 
+    (
+        timestamp,
+        data
+    )
+    VALUES
+    (
+        "ts",
+        "data"
+    );

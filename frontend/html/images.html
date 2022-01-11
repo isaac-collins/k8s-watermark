@@ -1,0 +1,65 @@
+<html>
+
+     <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+     />
+    <style>
+        .form {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        img {
+            display: block;
+            margin: auto;
+        }
+        body {background-color:rgb(182, 182, 182);}
+    </style>
+    <script>
+        window.onload = function() {
+            fetch('/getimages', {
+                method: "GET",
+                headers: {"Content-Type": "application/json"}
+            })     
+            .then(function (response){
+                return response.text();
+            })
+            .then(function (text){
+                const jsonResponse = JSON.parse(text);
+                var imgContainer = document.getElementById("imgContainer")
+                
+                for (var key in jsonResponse) {
+                    
+                    var transformedimage = document.createElement("img");
+                    transformedimage.src = "data:image/png;base64," + jsonResponse[key].data;
+                    imgContainer.appendChild(transformedimage);
+                    document.createElement("br");
+                }
+            })
+        }
+    </script>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">K8S Watermark</a>
+            </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/">Home</a></li>
+            <li><a href="/images.html">Image History</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    
+    <div id="imgContainer" class="container col-4"></div>
+    
+    <br>
+    <br>
+    
+    <div id="imageblock" style="margin: 0 auto;"></div>
+</html>
