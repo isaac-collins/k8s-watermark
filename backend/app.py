@@ -1,10 +1,12 @@
 import cv2, base64, numpy, requests
-from flask import Flask, render_template
-from flask import request, jsonify
+from flask import Flask, render_template, request, jsonify
 
 db_api = "http://db-api-svc/"
 app = Flask(__name__)
 
+#
+# convert b64 to cv2 img array, add user text, return new b64 image
+#
 def watermark_image(b64_image, text):
     img_bytes = base64.b64decode(b64_image)
     image_array = numpy.frombuffer(img_bytes,dtype=numpy.uint8)
@@ -22,11 +24,12 @@ def watermark_image(b64_image, text):
 @app.route('/backend', methods=['POST','GET'])
 def index():
     transformed_image = watermark_image(request.json['image'],request.json['text'])
-
+    
+    # send transformed image back to frontend
     response = {
         'transformed_image': transformed_image
     }
-    
+    # send transformed image to db for storage
     req_data = requests.post(
         db_api + "images",
         json = {'transformed_image': transformed_image},
