@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  backend: 
+    image: isaaccollins/isaac-watermark:backend82
+    ports: 
+      - 80:5000
+  frontend: 
+    image: isaaccollins/isaac-watermark:frontend82
+    ports: 
+      - 80:80
+  db-abi: 
+    image: isaaccollins/isaac-watermark:db-api82
+    environment: 
+      - DB_PASSWORD=abcd12345!!
+      - DB_USER=root
+      - DB_HOST=mysqldb
+    ports: 
+      - 80:5000
+  mysqldb:
+    image: "mysql:5.6"
+    environment:
+      - MYSQL_ROOT_PASSWORD=abcd12345!!
+    volumes:
+      - ./mysql-init:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+
