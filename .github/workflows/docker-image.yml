@@ -1,0 +1,35 @@
+name: Build and Push to DockerHub
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Login to Dockerhub
+      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+    - name: Build frontend
+      run: docker build  frontend/ --file Dockerfile --tag isaaccollins/isaac-watermark:frontend1
+      
+    - name: Build backend
+      run: docker build  backend/ --file Dockerfile --tag isaaccollins/isaac-watermark:backend1
+
+    - name: Build db-api
+      run: docker build  db-api/ --file Dockerfile --tag isaaccollins/isaac-watermark:db-api1
+
+    - name: Push frontend
+      run: docker push isaaccollins/isaac-watermark:frontend1
+      
+    - name: Push backend
+      run: docker push isaaccollins/isaac-watermark:backend1
+
+    - name: Push db-api
+      run: docker push isaaccollins/isaac-watermark:db-api1
