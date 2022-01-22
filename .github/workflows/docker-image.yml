@@ -17,13 +17,13 @@ jobs:
       run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
     - name: Build frontend
-      run: cd frontend && docker build  . --file Dockerfile --tag isaaccollins/isaac-watermark:frontend1
+      run: cd frontend && docker build  . --file dockerfile --tag isaaccollins/isaac-watermark:frontend1
       
     - name: Build backend
-      run: cd backend && docker build  . --file Dockerfile --tag isaaccollins/isaac-watermark:backend1
+      run: cd backend && docker build  . --file dockerfile --tag isaaccollins/isaac-watermark:backend1
 
     - name: Build db-api
-      run: cd db-api && docker build  . --file Dockerfile --tag isaaccollins/isaac-watermark:db-api1
+      run: cd db-api && docker build  . --file dockerfile --tag isaaccollins/isaac-watermark:db-api1
 
     - name: Push frontend
       run: docker push isaaccollins/isaac-watermark:frontend1
