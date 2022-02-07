@@ -1,34 +1,52 @@
-name: Deploy Infrastructure
-
 on:
   push:
     branches:
-      - test
+      - main 
+  
+
+      
 
 jobs:
-  tf_fmt:
-    name: Provision EKS TF
-    runs-on: ubuntu-latest
+  tf:
+    name: Provision EKS Cluster
+    runs-on: unbuntu-latest
+    defaults:
+      run:
+        working-directory: "tf/aws"
+        
     steps:
-
-    - name: Checkout Repo
-      uses: actions/checkout@v1
-
+    
+    - uses: actions/checkout@v2
+    
+    - uses: hashicorp/setup-terraform@v1
+    
+    - name: Terraform fmt
+      id: fmt
+      run: terraform fmt -check
+      continue-on-error: true
+    
     - name: Terraform Init
-      uses: hashicorp/terraform-github-actions/init@v0.4.0
+      id: init
+      run: terraform init
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        TF_ACTION_WORKING_DIR: 'tf/aws'
         AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
+    
     - name: Terraform Validate
-      uses: hashicorp/terraform-github-actions/validate@v0.3.7
-
+      id: validate
+      run: terraform validate -no-color
+    
+    - name: Terraform Plan
+      id: plan
+      run: terraform plan -no-color
+      continue-on-error: true
+      
     - name: Terraform Apply
-      uses: hashicorp/terraform-github-actions/apply@v0.4.0
+      id: apply
+      run: terraform apply
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        TF_ACTION_WORKING_DIR: 'tf/aws'
         AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    
