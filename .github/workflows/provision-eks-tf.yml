@@ -6,7 +6,7 @@ on:
 jobs:
   tf:
     name: Provision EKS Cluster
-    runs-on: unbuntu-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: "tf/aws"
