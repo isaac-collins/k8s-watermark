@@ -2,7 +2,7 @@ name: Deploy
 on:
   push:
     branches:
-      - main 
+      - test 
 jobs:
   tf:
     name: Provision EKS Cluster
