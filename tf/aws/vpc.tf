@@ -10,12 +10,7 @@ provider "aws" {
 data "aws_availability_zones" "available" {}
 
 locals {
-    cluster_name = "k8s-${random_string.suffix.result}"
-}
-
-resource "random_string" "suffix" {
-  length  = 8
-  special = false
+    cluster_name = "k8s-watermark"
 }
 
 module "vpc" {
