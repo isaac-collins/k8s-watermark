@@ -17,4 +17,4 @@ VALUES
 (
     "ts",
     "data"
-);
+); 
