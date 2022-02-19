@@ -51,8 +51,9 @@ jobs:
       id: kubeconfig
       run: echo ::set-output name=data::$(terraform output -raw kubectl_config)
       
-    - uses: actions-hub/kubectl@master
+    - name: Apply Manifests
+      uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: ${{steps.kubeconfig.outputs.data}}    
       with:
         args: apply -f manifest/.
-      env:
-        KUBE_CONFIG: ${{ steps.kubeconfig.outputs.data }}
