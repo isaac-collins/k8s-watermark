@@ -1,0 +1,25 @@
+name: test
+on:
+  push:
+    branches:
+      - test 
+jobs:
+  tf:
+    name: Test deploy k8s
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "tf/aws"
+        
+    steps:
+    - name: Get KubeConfig Data
+      id: kubeconfig
+      run: echo ::set-output name=data::test
+      
+    - name: Apply Manifests
+      uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: ${{ steps.kubeconfig.outputs.data }}    
+      with:
+        args: apply -f manifest/.
+
