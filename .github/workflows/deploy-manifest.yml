@@ -1,0 +1,22 @@
+name: Deploy 
+on:
+  push:
+    branches:
+      - test 
+jobs:
+  tf:
+    name: Apply Manifests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "manifest"
+        
+    steps: 
+    - uses: actions/checkout@v2
+    - name: Apply Manifests
+      uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: ${{secrets.KUBECONFIG}}    
+      with:
+        args: apply -f .
+
