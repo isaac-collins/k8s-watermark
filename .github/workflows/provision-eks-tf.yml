@@ -1,4 +1,4 @@
-name: Build Infra
+name: Build Infra and Provision
 on:
   push:
     branches:
@@ -59,6 +59,35 @@ jobs:
         value: ${{steps.kubeconfig.outputs.data}} 
         repository: isaac-collins/k8s-watermark
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        
+  kubernetes:
+    name: Apply Manifests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "manifest"
+        
+    steps: 
+    - uses: actions/checkout@v2
+
+    - name: Sanity
+      id: kubeconfig
+      run: echo ${{secrets.KUBECONFIG}}
+
+    - name: Apply Manifests
+      uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: ${{secrets.KUBECONFIG}}    
+      with:
+        args: apply -f .
+
+    - name: Get Deployments
+      uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: ${{secrets.KUBECONFIG}}    
+      with:
+        args: get deployments
+
 
 
 
