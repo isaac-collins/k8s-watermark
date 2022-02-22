@@ -12,7 +12,7 @@ module "eks" {
   }
 
  node_groups = {
-    one = {
+    node_group_t2_medium = {
       desired_capacity = 1
       max_capacity     = 3
       min_capacity     = 1
