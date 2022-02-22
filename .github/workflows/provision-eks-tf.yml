@@ -1,4 +1,4 @@
-name: Deploy
+name: Build Infra
 on:
   push:
     branches:
@@ -51,9 +51,14 @@ jobs:
       id: kubeconfig
       run: echo ::set-output name=data::$(terraform output -raw kubectl_config)
       
-    - name: Apply Manifests
-      uses: actions-hub/kubectl@master
-      env:
-        KUBE_CONFIG: ${{steps.kubeconfig.outputs.data}}    
+    - name: Update KubeConfig Secret
+      id: kubeconfig_secret
+      uses: hmanzur/actions-set-secret@v2.0.0
       with:
-        args: apply -f manifest/.
+        name: KUBECONFIG
+        value: ${{steps.kubeconfig.outputs.data}} 
+        repository: isaac-collins/k8s-watermark
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+
+
