@@ -1,6 +1,15 @@
 name: Build Infra and Provision
-on:
-  workflow_dispatch
+on: 
+  workflow_dispatch:
+    inputs:
+      test:
+        description: 'Log level'     
+        required: false
+        default: 'warning' 
+        type: choice
+        options:
+        - info
+        - warning
 
 jobs:
   tf:
