@@ -1,8 +1,6 @@
 name: Build Infra and Provision
-on:
-  push:
-    branches:
-      - test 
+on: workflow_dispatch
+
 jobs:
   tf:
     name: Provision EKS Cluster
