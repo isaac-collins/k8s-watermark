@@ -1,15 +1,15 @@
-name: Build Infra and Provision
+name: Provision Infra
 on: 
   workflow_dispatch:
     inputs:
       test:
-        description: 'Log level'     
+        description: 'Cloud Provider'     
         required: false
         default: 'warning' 
         type: choice
         options:
-        - info
-        - warning
+        - AWS
+        - DO
 
 jobs:
   tf:
@@ -69,34 +69,7 @@ jobs:
         repository: isaac-collins/k8s-watermark
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
         
-  kubernetes:
-    name: Apply Manifests
-    runs-on: ubuntu-latest
-    needs: tf
-    defaults:
-      run:
-        working-directory: "manifest"
-        
-    steps: 
-    - uses: actions/checkout@v2
-
-    - name: Sanity
-      id: kubeconfig
-      run: echo ${{secrets.KUBECONFIG}}
-
-    - name: Apply Manifests
-      uses: actions-hub/kubectl@master
-      env:
-        KUBE_CONFIG: ${{secrets.KUBECONFIG}}    
-      with:
-        args: apply -f .
-
-    - name: Get Deployments
-      uses: actions-hub/kubectl@master
-      env:
-        KUBE_CONFIG: ${{secrets.KUBECONFIG}}    
-      with:
-        args: get deployments
+  
 
 
 
