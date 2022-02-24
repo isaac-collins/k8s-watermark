@@ -1,5 +1,6 @@
 name: Build Infra and Provision
-on: workflow_dispatch
+on:
+  workflow_dispatch:
 
 jobs:
   tf:
