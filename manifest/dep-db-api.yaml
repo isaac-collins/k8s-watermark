@@ -20,7 +20,7 @@ spec:
               name: mysqldb-secret
               key: password
         - name: DB_USER
-          value: ROOT
+          value: root
         - name: DB_HOST
           value: mysqldb-svc
         image: docker.io/isaaccollins/isaac-watermark:db-api$BUILD_NUMBER
