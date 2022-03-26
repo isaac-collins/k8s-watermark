@@ -1,6 +1,6 @@
 import sys
-sys.path.append('../backend')
-from backend.app import *
+sys.path.append('../')
+from app import *
 
 
 #
