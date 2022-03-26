@@ -16,7 +16,7 @@ db = SQLAlchemy(app)
 
 #
 #Image object model
-#
+# 
 class Images(db.Model):
 
     def __init__(self, b64data):

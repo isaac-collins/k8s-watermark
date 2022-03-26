@@ -21,6 +21,15 @@ def watermark_image(b64_image, text):
 
     return encoded_image
 
+#
+# unit test to verify watermark_image() converts image 
+#
+def test_watermark_image():
+    test_input = open('.test/test_input','r').read()
+    test_output = open('.test/test_output','r').read()
+
+    assert watermark_image(test_input, "test") == test_output 
+
 @app.route('/backend', methods=['POST','GET'])
 def index():
     transformed_image = watermark_image(request.json['image'],request.json['text'])
