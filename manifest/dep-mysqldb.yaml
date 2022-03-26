@@ -53,13 +53,3 @@ data:
         PRIMARY KEY ( id )
     
     );
-    INSERT INTO images 
-    (
-        timestamp,
-        data
-    )
-    VALUES
-    (
-        "ts",
-        "data"
-    );
