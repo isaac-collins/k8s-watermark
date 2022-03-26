@@ -1,0 +1,78 @@
+name: Provision Infra
+on: 
+  workflow_dispatch:
+    inputs:
+      test:
+        description: 'Cloud Provider'     
+        required: false
+        default: 'warning' 
+        type: choice
+        options:
+        - AWS
+        - DO
+
+jobs:
+  tf:
+    name: Provision EKS Cluster
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "tf/aws"
+        
+    steps:
+    
+    - uses: actions/checkout@v2
+      with:
+        ref: test
+    
+    - uses: hashicorp/setup-terraform@v1
+    
+    - name: Terraform fmt
+      id: fmt
+      run: terraform fmt -check
+      continue-on-error: true
+    
+    - name: Terraform Init
+      id: init
+      run: terraform init
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    
+    - name: Terraform Validate
+      id: validate
+      run: terraform validate -no-color
+    
+    - name: Terraform Plan
+      id: plan
+      run: terraform plan -no-color
+      continue-on-error: true
+      
+    - name: Terraform Apply
+      id: apply
+      run: terraform apply -auto-approve
+      continue-on-error: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        
+    - name: Get KubeConfig Data
+      id: kubeconfig
+      run: echo ::set-output name=data::$(terraform output -raw kubectl_config)
+      
+    - name: Update KubeConfig Secret
+      id: kubeconfig_secret
+      uses: hmanzur/actions-set-secret@v2.0.0
+      with:
+        name: KUBECONFIG
+        value: ${{steps.kubeconfig.outputs.data}} 
+        repository: isaac-collins/k8s-watermark
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        
+  
+
+
+
+

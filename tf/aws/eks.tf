@@ -11,6 +11,7 @@ module "eks" {
     root_volume_type = "gp2"
   }
 
+
  node_groups = {
     node_group_t2_medium = {
       desired_capacity = 1
@@ -18,8 +19,9 @@ module "eks" {
       min_capacity     = 1
       instance_type = "t2.medium"
     }
- }
+  }
 }
+
 
 data "aws_eks_cluster" "cluster" {
   name = module.eks.cluster_id
