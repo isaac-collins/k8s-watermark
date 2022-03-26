@@ -23,7 +23,7 @@ jobs:
     
     - uses: actions/checkout@v2
       with:
-        ref: test
+        ref: master
     
     - uses: hashicorp/setup-terraform@v1
     
@@ -57,6 +57,11 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  push_manifest:
+    name: Push Manifest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ./.github/workflows/deploy-k8s.yml@master
 
   
 
