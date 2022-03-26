@@ -36,7 +36,7 @@ jobs:
         pip install pytest
     - name: Run tests
       run: |
-        cd backend/
+        cd backend/.test
         pytest
 
       
