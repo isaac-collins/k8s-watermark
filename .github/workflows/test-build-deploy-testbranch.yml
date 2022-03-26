@@ -74,6 +74,7 @@ jobs:
 
     - name: Create DEV Namespace
       run: kubectl create -f https://k8s.io/examples/admin/namespace-dev.json && kubectl config set-context --current --namespace=development
+      continue-on-error: true
 
     - name: Add Container Test Identifier
       run: sed -i 's/$BUILD_NUMBER/_test/' *
