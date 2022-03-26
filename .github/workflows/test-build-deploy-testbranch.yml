@@ -73,8 +73,10 @@ jobs:
       run: aws eks --region us-west-2 update-kubeconfig --name k8s-watermark
 
     - name: Create DEV Namespace
-      run: kubectl create -f https://k8s.io/examples/admin/namespace-dev.json && kubectl config set-context --current --namespace=development
+      run: kubectl create -f https://k8s.io/examples/admin/namespace-dev.json 
       continue-on-error: true
+    - name: Set development as default Namespace
+      run: kubectl config set-context --current --namespace=development
 
     - name: Add Container Test Identifier
       run: sed -i 's/$BUILD_NUMBER/_test/' *
