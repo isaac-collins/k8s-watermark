@@ -57,20 +57,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        
-    - name: Get KubeConfig Data
-      id: kubeconfig
-      run: echo ::set-output name=data::$(terraform output -raw kubectl_config)
-      
-    - name: Update KubeConfig Secret
-      id: kubeconfig_secret
-      uses: hmanzur/actions-set-secret@v2.0.0
-      with:
-        name: KUBECONFIG
-        value: ${{steps.kubeconfig.outputs.data}} 
-        repository: isaac-collins/k8s-watermark
-        token: ${{ secrets.REPO_ACCESS_TOKEN }}
-        
+
   
 
 
