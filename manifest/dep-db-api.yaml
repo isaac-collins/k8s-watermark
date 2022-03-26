@@ -24,5 +24,6 @@ spec:
         - name: DB_HOST
           value: mysqldb-svc
         image: docker.io/isaaccollins/isaac-watermark:db-api$BUILD_NUMBER
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000

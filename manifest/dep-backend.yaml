@@ -19,5 +19,6 @@ spec:
       containers:
       - name: backend-app
         image: docker.io/isaaccollins/isaac-watermark:backend$BUILD_NUMBER
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
