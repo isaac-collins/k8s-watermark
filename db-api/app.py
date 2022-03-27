@@ -1,4 +1,6 @@
-import os, datetime, base64
+import os
+import datetime
+import base64
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow import *
@@ -8,15 +10,16 @@ DB_HOST = os.getenv('DB_HOST')
 DB_USER = os.getenv('DB_USER')
 DB_PASSWORD = os.getenv('DB_PASSWORD')
 
+db_connection_string = "mysql+pymysql://{0}:{1}@{2}/images".format(DB_USER,DB_PASSWORD,DB_HOST)
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://{0}:{1}@{2}/images".format(DB_USER,DB_PASSWORD,DB_HOST)
+app.config['SQLALCHEMY_DATABASE_URI'] = db_connection_string
 
 api = Api(app)
 db = SQLAlchemy(app)
 
 #
 #Image object model
-# 
+#
 class Images(db.Model):
 
     def __init__(self, b64data):

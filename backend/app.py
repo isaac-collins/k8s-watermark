@@ -24,7 +24,7 @@ def watermark_image(b64_image, text):
 @app.route('/backend', methods=['POST','GET'])
 def index():
     transformed_image = watermark_image(request.json['image'],request.json['text'])
-    
+
     # send transformed image back to frontend
     response = {
         'transformed_image': transformed_image
@@ -35,6 +35,3 @@ def index():
         json = {'transformed_image': transformed_image},
     )
     return jsonify(response)
-
-
-
