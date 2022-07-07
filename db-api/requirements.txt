@@ -1,5 +1,0 @@
-Flask==2.0.1
-flask_sqlalchemy
-marshmallow
-flask_restful
-pymysql

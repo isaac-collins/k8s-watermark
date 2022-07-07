@@ -1,13 +1,16 @@
-FROM python:latest
+FROM golang:alpine
 
-RUN apt update
+WORKDIR /go/src/testapp
 
-COPY ./requirements.txt /app/requirements.txt
 
-RUN pip install -r /app/requirements.txt
+COPY . /go/src/testapp
 
-COPY . /app
 
-WORKDIR /app
+RUN go get ./...
+RUN go install ./...
+RUN go build .
 
-CMD ["flask","run","--host=0.0.0.0"]
+
+EXPOSE 8080
+
+ENTRYPOINT ["./db-api"]
