@@ -1,10 +1,10 @@
 package config
 
 import(
-	//"os"
+	"os"
 )
 
-var DB_HOST string = "host.docker.internal"//os.Getenv("DB_HOST")
-var DB_USER string = "root"//os.Getenv("DB_USER")
-var DB_PASSWORD string = "passwordtest"//os.Getenv("DB_PASSWORD")
-var DB_PORT string = "4984"
+var DB_HOST string 		= os.Getenv("DB_HOST")
+var DB_USER string 		= os.Getenv("DB_USER")
+var DB_PASSWORD string 	= os.Getenv("DB_PASSWORD")
+var DB_PORT string 		= "3306"
