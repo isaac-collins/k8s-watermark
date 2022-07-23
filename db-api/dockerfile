@@ -11,6 +11,6 @@ RUN go install ./...
 RUN go build .
 
 
-EXPOSE 8080
+EXPOSE 5000
 
 ENTRYPOINT ["./db-api"]

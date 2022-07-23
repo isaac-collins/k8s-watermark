@@ -10,3 +10,7 @@ type Image struct{
 	Timestamp	string	`json:"timestamp"`
 	Data		[]byte	`json:"data"`		
 }
+
+type NewImageData struct{
+	Transformed_image		string		`json:"transformed_image" binding:"required"`
+}

@@ -23,6 +23,8 @@ spec:
           value: root
         - name: DB_HOST
           value: mysqldb-svc
+        - name: DB_PORT
+          value: "3306"
         image: docker.io/isaaccollins/isaac-watermark:db-api$BUILD_NUMBER
         ports:
         - containerPort: 5000
