@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-api
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: db-api
+  template:
+    metadata:
+      labels:
+        app: db-api
+    spec:
+      containers:
+      - name: db-api
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysqldb-secret
+              key: password
+        - name: DB_USER
+          value: root
+        - name: DB_HOST
+          value: mysqldb-svc
+        - name: DB_PORT
+          value: "3306"
+        image: docker.io/isaaccollins/isaac-watermark:db-api{{ .Values.image.tag }}
+        ports:
+        - containerPort: 5000

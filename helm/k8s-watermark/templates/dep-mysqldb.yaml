@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysqldb
+spec:
+  selector:
+    matchLabels:
+      app: mysqldb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysqldb
+    spec:
+      containers:
+      - name: mysqldb
+        image: mysql:5.6
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysqldb-secret
+              key: password
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+          - name: mysqldb-pv
+            mountPath: /var/lib/mysql
+          - name: mysql-initdb
+            mountPath: /docker-entrypoint-initdb.d
+      volumes:
+      - name: mysqldb-pv
+        persistentVolumeClaim:
+          claimName: mysqldb-pvc
+      - name: mysql-initdb
+        configMap:
+          name: mysql-initdb-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-initdb-config
+data:
+  initdb.sql: |
+    CREATE DATABASE images;
+    USE images;
+    CREATE TABLE images 
+    (
+        id INT NOT NULL AUTO_INCREMENT,
+        timestamp VARCHAR(50),
+        data BLOB,
+        PRIMARY KEY ( id )
+    
+    );
