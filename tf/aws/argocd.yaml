@@ -1,0 +1,20 @@
+server:
+  service:
+    type: LoadBalancer
+  additionalApplications:
+   - name: k8s-watermark
+     namespace: argocd
+     project: default
+     source:
+       repoURL: 'https://github.com/isaac-collins/k8s-watermark.git'
+       path: helm/k8s-watermark
+       targetRevision: master
+       helm:
+        releaseName: k8s-watermark
+     destination:
+       server: https://kubernetes.default.svc
+       namespace: default
+     syncPolicy:
+       automated:
+         prune: false
+         selfHeal: false
