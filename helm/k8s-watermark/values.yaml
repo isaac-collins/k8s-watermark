@@ -1,4 +1,4 @@
 replicaCount: 4
-
+serviceType: Loadbalancer
 image:
   tag: 1
