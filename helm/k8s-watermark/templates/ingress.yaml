@@ -1,5 +1,5 @@
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: k8s-ingress
@@ -11,20 +11,16 @@ spec:
     http:
       paths:
       - path: /
+        pathType: Prefix
         backend:
           service: 
             name: ingress-watermark
             port:
               number: 80
       - path: /api/transform
+        pathType: Prefix
         backend:
           service:
             name: backend-svc
-            port:
-              number: 80
-      - path: /api/images
-        backend:
-          service:
-            name: db-api-svc
             port:
               number: 80
