@@ -12,12 +12,12 @@ module "eks" {
   }
 
 
- node_groups = {
+  node_groups = {
     node_group_t2_medium = {
       desired_capacity = 2
       max_capacity     = 3
       min_capacity     = 1
-      instance_type = "t2.medium"
+      instance_type    = "t2.medium"
     }
   }
 }
@@ -30,7 +30,7 @@ data "aws_eks_cluster" "cluster" {
 data "aws_eks_cluster_auth" "cluster" {
   name = module.eks.cluster_id
 }
-  
+
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.cluster.endpoint
   token                  = data.aws_eks_cluster_auth.cluster.token

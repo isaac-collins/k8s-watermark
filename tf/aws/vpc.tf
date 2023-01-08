@@ -1,16 +1,16 @@
 variable "region" {
-    default     = "us-west-2"
-    description = "AWS Oregon"
+  default     = "us-west-2"
+  description = "AWS Oregon"
 }
 
 provider "aws" {
-    region = var.region
+  region = var.region
 }
 
 data "aws_availability_zones" "available" {}
 
 locals {
-    cluster_name = "k8s-watermark"
+  cluster_name = "k8s-watermark"
 }
 
 module "vpc" {

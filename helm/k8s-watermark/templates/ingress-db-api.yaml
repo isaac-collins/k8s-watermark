@@ -2,26 +2,19 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: k8s-ingress
+  name: k8s-ingress-db-api
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/app-root: /images
+    nginx.ingress.kubernetes.io/server-snippet: |
+      limit_except GET {
+        deny ALL;
+      }
 spec:
   rules:
   - host: "*.elb.amazonaws.com"
     http:
       paths:
-      - path: /
-        backend:
-          service: 
-            name: ingress-watermark
-            port:
-              number: 80
-      - path: /api/transform
-        backend:
-          service:
-            name: backend-svc
-            port:
-              number: 80
       - path: /api/images
         backend:
           service:

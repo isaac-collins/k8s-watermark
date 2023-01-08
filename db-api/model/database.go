@@ -1,22 +1,28 @@
 package model
 
 import (
-	"fmt"
 	"db-api/config"
-	"gorm.io/gorm"
+	"fmt"
+	"time"
+
 	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 func Database() (*gorm.DB, error) {
 	DB_CONNECTION := fmt.Sprintf("%s:%s@tcp(%s:%s)/images?parseTime=true", config.DB_USER, config.DB_PASSWORD, config.DB_HOST, config.DB_PORT)
-	
-	db, err := gorm.Open(mysql.Open(DB_CONNECTION), &gorm.Config{})
-	if err != nil {
-		fmt.Println("Error opening db connection ", err)
-	} else {
-		fmt.Println("Connected to DB")
+	var err error
+	retries := 5
+	var db *gorm.DB
+	db, err = gorm.Open(mysql.Open(DB_CONNECTION), &gorm.Config{})
+	for err != nil {
+		db, err = gorm.Open(mysql.Open(DB_CONNECTION), &gorm.Config{})
+		time.Sleep(time.Second)
+		retries--
+		if retries == 1 {
+			panic(err)
+		}
 	}
 
 	return db, err
-
 }
